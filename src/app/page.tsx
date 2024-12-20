@@ -5,6 +5,7 @@ import Clock from "@/components/Clock";
 import NavbarMenu from "@/components/NavbarMenu";
 import { useEffect, useState } from "react";
 import StoreProvider from "./StoreProvider";
+import StateTimer from "@/components/StateTimer";
 
 export default function Home() {
 
@@ -33,7 +34,7 @@ export default function Home() {
       <main className="min-h-screen" style={{ backgroundImage: `url(${imageUrl})`, backgroundSize: 'cover' }}>
         <NavbarMenu />
         <div className="flex items-center justify-center flex-col p-8 pt-20 gap-2">
-          <p className="text-2xl text-white">PomoTimer</p>
+          <StateTimer />
           <div className="clock region-center-clock">
             <Clock initTimeSecond={timePomodoro} status="in-progress" type="clock" />
           </div>
