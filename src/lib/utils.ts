@@ -7,7 +7,7 @@ export function cn(...inputs: ClassValue[]) {
 
 
 /**
- * Convert minutes to seconds
+ * Convert minutes to seconds.
  * @author mrsteve.bang@gmail.com
  * @param minutes The number of minutes to convert
  * @returns The number of seconds in the given minutes
