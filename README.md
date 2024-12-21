@@ -1,6 +1,7 @@
 # Pomodoro Timer
 
 This is a project for helping everyone can practice with the pomodoro skill. Pomotimer will help you manage your time and let you focus on any tasks such as study,...
+
 The Pomodoro Technique is a time management method in which you do focused work during 25-minute intervals — known as pomodoros — and take a five-minute break. We love this method because it: Improves focus. Minimizes distractions.
 
 ## Getting Started
