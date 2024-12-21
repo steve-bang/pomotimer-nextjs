@@ -12,7 +12,7 @@ const initialState: IPomodoroTime = {
     totalSeconds: 1500,
     totalSessions: 5,
     currentSession: 1,
-    currentSessionTime: 0,
+    currentSessionTime: 1500,
     status: 'pomodoro',
 };
 
@@ -26,8 +26,14 @@ export const pomodoroTimesSlice = createSlice({
             state.currentSession = action.payload.currentSession;
             state.currentSessionTime = action.payload.currentSessionTime;
         },
+        countDownCurrentSessionTime: (state : IPomodoroTime) => {
+            state.currentSessionTime -= 1;
+        },
+        changeStatusCurrentSessionTime: (state : IPomodoroTime, action: PayloadAction<'break' | 'pomodoro'>) => {
+            state.status = action.payload;
+        },
     },
 });
 
-export const { setPomodoroTimes } = pomodoroTimesSlice.actions;
+export const { setPomodoroTimes , countDownCurrentSessionTime, changeStatusCurrentSessionTime } = pomodoroTimesSlice.actions;
 export const pomodoroTimesReducer = pomodoroTimesSlice.reducer;
