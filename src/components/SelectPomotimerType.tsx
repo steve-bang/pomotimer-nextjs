@@ -3,10 +3,11 @@ import { useState } from "react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
 import { SelectItemProps } from "@/type";
 import { useAppDispatch } from "@/lib/store";
-import { setPomodoroTimes, IPomodoroTime } from "@/lib/pomodoroTimesSlice";
+import { setPomodoroTimes } from "@/lib/pomodoroTimesSlice";
 import { convertMinutesToSeconds } from "@/lib/utils";
 
 const pomodoroTypes : SelectItemProps[] = [
+    { value: "1", label: "one minute" },
     { value: "25", label: "25 minutes" },
     { value: "45", label: "45 minutes" },
     { value: "50", label: "50 minutes" },

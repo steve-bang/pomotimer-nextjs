@@ -22,7 +22,7 @@ export default function NavbarMenu() {
             <Dialog>
                 <DialogTrigger asChild>
                     <Button>
-                        <Setting /> Setting
+                        <Setting /> Settings
                     </Button>
                 </DialogTrigger>
                 <DialogContent className="sm:max-w-[425px]">
