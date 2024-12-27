@@ -17,16 +17,10 @@ import { SelectItemProps } from "@/type";
 import { useAppDispatch } from "@/lib/store";
 import { setPomodoroTimes } from "@/lib/pomodoroTimesSlice";
 import { convertMinutesToSeconds } from "@/lib/utils";
+import { POMODORO_TIME_DEFAULT } from "@/constants/PomodoroTypeDefault";
 
 // Pomodoro types
-const pomodoroTypes : SelectItemProps[] = [
-    { value: "1", label: "1 minutes" },
-    { value: "25", label: "25 minutes" },
-    { value: "45", label: "45 minutes" },
-    { value: "50", label: "50 minutes" },
-    { value: "60", label: "60 minutes" },
-    { value: "90", label: "90 minutes" },
-];
+const pomodoroTypes : SelectItemProps[] = POMODORO_TIME_DEFAULT.map( p => ({value: p.focusTime, label: p.label }));
 
 
 
@@ -51,9 +45,11 @@ export default function NavbarMenu() {
         // Set the pomodoro times to the store
         dispatch(setPomodoroTimes({
                 totalSeconds: convertMinutesToSeconds(parseInt(pomoTypeMinutes)),
+                totalSecondBreak: POMODORO_TIME_DEFAULT.find(x => x.focusTime === convertMinutesToSeconds(parseInt(pomoTypeMinutes)))?.breakTime,
                 totalSessions: sessionNumber,
                 currentSession: 0,
                 currentSessionTime: convertMinutesToSeconds(parseInt(pomoTypeMinutes)),
+                completed: false
         }));
 
         // Close the dialog
