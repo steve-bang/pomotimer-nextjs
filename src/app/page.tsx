@@ -9,8 +9,6 @@ import StateTimer from "@/components/StateTimer";
 
 export default function Home() {
 
-   const timePomodoro : number = 15;
-
 
    const [imageUrl, setImageUrl] = useState('');
 
@@ -36,7 +34,7 @@ export default function Home() {
         <div className="flex items-center justify-center flex-col p-8 pt-20 gap-2">
           <StateTimer />
           <div className="clock region-center-clock">
-            <Clock initTimeSecond={timePomodoro} status="in-progress" type="clock" />
+            <Clock status="in-progress" type="clock" />
           </div>
         </div>
       </main>

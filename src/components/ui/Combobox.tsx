@@ -71,7 +71,7 @@ function CommandAddItem({
       )}
     >
       <CirclePlus className="mr-2 h-4 w-4" />
-      Create "{query}"
+      Create {`"${query}"`}
     </div>
   );
 }
@@ -188,7 +188,7 @@ export function Combobox({
               )}
 
               {/* Select */}
-              {options.map((option, index) => (
+              {options.map((option) => (
                 <CommandItem
                   key={option.label}
                   tabIndex={0}
