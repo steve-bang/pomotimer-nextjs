@@ -1,4 +1,4 @@
-import { cookieHeaderImage, getOrRandomImage, randomImage } from "@/actions/image.action";
+import { cookieHeaderImage, randomImage } from "@/actions/image.action";
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 
