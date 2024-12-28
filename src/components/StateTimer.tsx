@@ -14,7 +14,7 @@ export default function StateTimer() {
         }
     }
 
-    return ( <p className="text-2xl text-white">
+    return ( <p className="text-2xl text-white font-bold">
             {getStatus()}
     </p>);
 }

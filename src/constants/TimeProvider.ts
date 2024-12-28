@@ -1,0 +1,1 @@
+export const TIME_TO_RUN_COUNTDOWN_SECOND = 5;
