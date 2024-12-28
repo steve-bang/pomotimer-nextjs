@@ -12,6 +12,7 @@ export interface SelectPomotimerTypeProps {
 export default function SelectPomotimerType(
     { onSelectTime, values, defaultValue } : SelectPomotimerTypeProps
 ) {
+    console.log(defaultValue);
     return (<Select onValueChange={(valueChange) => onSelectTime(valueChange)} defaultValue={defaultValue}>
         <SelectTrigger className="w-[200px]">
             <SelectValue placeholder="Select time..."></SelectValue>
