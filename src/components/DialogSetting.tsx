@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 
-import Setting from "./ui/Setting";
 import { Button } from "@/components/ui/button";
 import {
     Dialog,

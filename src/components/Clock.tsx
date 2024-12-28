@@ -11,7 +11,7 @@ import CurrentSection from "./CurrentSection";
 import { TIME_TO_RUN_COUNTDOWN_SECOND } from "@/constants/TimeProvider";
 import { AlertDialog, AlertDialogAction, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "./ui/alert-dialog";
 
-export default function Clock({ initTimeSecond, status, type }: ClockProps) {
+export default function Clock({ status, type }: Readonly<ClockProps>) {
 
   const pomoTimeState = useAppSelector((state) => state.pomotimer);
 
