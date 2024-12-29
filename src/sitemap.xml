@@ -1,0 +1,34 @@
+import { GetServerSideProps } from "next";
+
+function generateSiteMap() {
+  const pages = [
+    { loc: "https://pomotimer-nextjs.vercel.app", lastmod: "2024-12-28" },
+    { loc: "https://pomotimer-nextjs.vercel.app", lastmod: "2024-12-28" },
+  ];
+
+  return `
+  <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    ${pages
+      .map(
+        (page) => `
+    <url>
+      <loc>${page.loc}</loc>
+      <lastmod>${page.lastmod}</lastmod>
+    </url>
+    `
+      )
+      .join("")}
+  </urlset>`;
+}
+
+export default function SiteMap() {}
+
+export const getServerSideProps: GetServerSideProps = async ({ res }) => {
+  res.setHeader("Content-Type", "text/xml");
+  res.write(generateSiteMap());
+  res.end();
+
+  return {
+    props: {},
+  };
+};
