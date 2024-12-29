@@ -13,6 +13,11 @@ export interface SelectItemProps {
     label: string;
 }
 
+export interface FeatureCardProps {
+    title: string;
+    description: string;
+  }
+
 export interface PomodoroTimeType {
     focusTime: int;
     label: string; 

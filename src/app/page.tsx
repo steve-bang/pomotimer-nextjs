@@ -2,6 +2,7 @@ import { ArrowRight, ClockAlert } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import Head from "next/head";
+import FeatureCard from "@/components/FeatureCard";
 
 export default function IntroductionPage() {
   return (
@@ -29,7 +30,7 @@ export default function IntroductionPage() {
           property="og:image"
           content="/wallpaper/background-landing.webp"
         />
-        <meta property="og:url" content="https://yourwebsite.com" />
+        <meta property="og:url" content="https://pomotimer-nextjs.vercel.app/" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta
           name="twitter:title"
@@ -43,7 +44,7 @@ export default function IntroductionPage() {
           name="twitter:image"
           content="/wallpaper/background-landing.webp"
         />
-        <link rel="canonical" href="https://yourwebsite.com" />
+        <link rel="canonical" href="https://pomotimer-nextjs.vercel.app/" />
       </Head>
       <div
         className="min-h-screen bg-gradient-to-b from-red-50 to-white flex flex-col justify-center items-center px-4 py-8"
@@ -110,16 +111,4 @@ export default function IntroductionPage() {
   );
 }
 
-interface FeatureCardProps {
-  title: string;
-  description: string;
-}
 
-function FeatureCard({ title, description }: FeatureCardProps) {
-  return (
-    <div className="bg-white p-6 rounded-lg shadow-md">
-      <h3 className="text-xl font-semibold text-gray-800 mb-2">{title}</h3>
-      <p className="text-gray-600">{description}</p>
-    </div>
-  );
-}

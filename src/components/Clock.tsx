@@ -212,14 +212,13 @@ export default function Clock({ status, type }: Readonly<ClockProps>) {
       <AlertDialog open={pomoTimeState.completed}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Hoàn thành pomodoro</AlertDialogTitle>
+            <AlertDialogTitle>Complete your section</AlertDialogTitle>
             <AlertDialogDescription>
-              Bạn đã hoàn thành tốt pomodoro hôm nay. Bạn có muốn tiếp tục
-              không?
+              You have completed your section. Please take a break.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogAction>Continue</AlertDialogAction>
+            <AlertDialogAction onClick={() => setTypeTime("clock")} >Continue</AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>

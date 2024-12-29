@@ -2,8 +2,8 @@ import { GetServerSideProps } from "next";
 
 function generateSiteMap() {
   const pages = [
-    { loc: "https://yourwebsite.com", lastmod: "2024-12-28" },
-    { loc: "https://yourwebsite.com/pomodoro", lastmod: "2024-12-28" },
+    { loc: "https://pomotimer-nextjs.vercel.app", lastmod: "2024-12-28" },
+    { loc: "https://pomotimer-nextjs.vercel.app", lastmod: "2024-12-28" },
   ];
 
   return `
