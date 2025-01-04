@@ -87,7 +87,7 @@ export function DialogSetting() {
                         <SelectPomotimerType
                             onSelectTime={onSelectTime}
                             values={pomodoroTypes}
-                            defaultValue={pomoTypeMinutes}
+                            defaultValue={Number.parseInt(pomoTypeMinutes)}
                         />
                     </div>
                 </div>
