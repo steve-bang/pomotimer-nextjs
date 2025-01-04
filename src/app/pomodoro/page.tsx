@@ -31,7 +31,7 @@ export default function Home() {
         <div className="flex items-center justify-center flex-col p-8 pt-20 gap-2">
           <StateTimer />
           <div className="clock region-center-clock">
-            <Clock status="in-progress" type="clock" />
+            <Clock status="ready" type="pomodoro-timer" />
           </div>
         </div>
       </main>

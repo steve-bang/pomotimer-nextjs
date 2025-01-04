@@ -79,6 +79,10 @@ body {
 }
 
 @layer utilities{
+
+  .time-text {
+    @apply text-[150px];
+  }
   
 }
 

@@ -57,6 +57,16 @@ export function DialogSetting() {
         setIsOpen(false);
     };
 
+    function handleOnChangeSessionNumber(e: React.ChangeEvent<HTMLInputElement>) {
+
+        if (Number.parseInt(e.target.value) < 1) {
+            setSessionNumber(1);
+            return;
+        }
+
+        setSessionNumber(Number.parseInt(e.target.value));
+    }
+
     return (<div className="tools-nav-bar">
 
         <Dialog open={isOpen} onOpenChange={setIsOpen}>
@@ -77,7 +87,7 @@ export function DialogSetting() {
                         <SelectPomotimerType
                             onSelectTime={onSelectTime}
                             values={pomodoroTypes}
-                            defaultValue={pomoTypeMinutes}
+                            defaultValue={Number.parseInt(pomoTypeMinutes)}
                         />
                     </div>
                 </div>
@@ -87,7 +97,7 @@ export function DialogSetting() {
                         <Label htmlFor="name" className="text-right">
                             Session
                         </Label>
-                        <Input type="number" id="session" className="w-[200px]" name="session" value={sessionNumber} onChange={(e) => setSessionNumber(Number.parseInt(e.target.value))} />
+                        <Input type="number" id="session" className="w-[200px]" name="session" value={sessionNumber} onChange={(e) => handleOnChangeSessionNumber(e)} />
                     </div>
                 </div>
                 <DialogFooter>

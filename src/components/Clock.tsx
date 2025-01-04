@@ -3,7 +3,6 @@
 import { ClockProps } from "@/type";
 import { useEffect, useRef, useState } from "react";
 import { Pause, Play } from "lucide-react";
-import DropdownMenuTypeTime from "./DropdownMenuTypeTime";
 import { useAppDispatch, useAppSelector } from "@/lib/store";
 import {
   changeStatusCurrentSessionTime,
@@ -21,6 +20,8 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "./ui/alert-dialog";
+import { Progress } from "./ui/progress";
+
 
 export default function Clock({ status, type }: Readonly<ClockProps>) {
   const pomoTimeState = useAppSelector((state) => state.pomotimer);
@@ -33,6 +34,7 @@ export default function Clock({ status, type }: Readonly<ClockProps>) {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const audioRefCountdown = useRef<HTMLAudioElement | null>(null);
   const audioRefAlterCompleted = useRef<HTMLAudioElement | null>(null);
+  const audioRefPomoStatusChange = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
     if (!timeNow) setTimeNow(new Date());
@@ -104,22 +106,20 @@ export default function Clock({ status, type }: Readonly<ClockProps>) {
     return `${timeNow?.getHours()} : ${timeNow?.getMinutes()}`;
   }
 
+  function onChangeStatusPomo(status: "done" | "ready" | "in-progress" | "pause") {
+    setStatusPomo(status);
+
+    audioRefPomoStatusChange.current?.play();
+  }
+
   return (
     <div className="clock p-4 flex flex-col items-center text-white">
-      <div className="flex items-center gap-2 drop-shadow-2xl ">
-        <span className="minute text-[120px]">
+      <div className="flex items-center gap-2 drop-shadow-2xl">
+        <span className="time-text">
           {typeTime === "pomodoro-timer"
             ? formatTime(pomoTimeState.currentSessionTime)
             : formatClock()}
         </span>
-
-        <DropdownMenuTypeTime
-          options={[
-            { label: "Pomodoro", value: "pomodoro-timer" },
-            { label: "Clock", value: "clock" },
-          ]}
-          onSelect={setTypeTime}
-        />
       </div>
 
       {typeTime === "clock" ? (
@@ -129,31 +129,13 @@ export default function Clock({ status, type }: Readonly<ClockProps>) {
           <div className="w-full border-1  border-white outline outline-1 h-4 dark:bg-gray-800 flex items-center rounded-full">
             {/* Display progress of the section */}
             {pomoTimeState.status === "pomodoro" ? (
-              <div
-                className="bg-white h-3.5 rounded-full"
-                style={{
-                  width: `${
-                    ((pomoTimeState.totalSeconds -
-                      pomoTimeState.currentSessionTime) /
-                      pomoTimeState.totalSeconds) *
-                    100
-                  }%`,
-                }}
-              ></div>
-            ) : (
-              <div
-                className="bg-white h-3.5 rounded-full"
-                style={{
-                  width: `${
-                    ((pomoTimeState.totalSecondBreak -
-                      pomoTimeState.currentSessionTime) /
-                      pomoTimeState.totalSecondBreak) *
-                    100
-                  }%`,
-                }}
-              ></div>
+              <Progress value={((pomoTimeState.totalSeconds - pomoTimeState.currentSessionTime) / pomoTimeState.totalSeconds) * 100} /> 
+            )
+            : (
+              <Progress value={((pomoTimeState.totalSecondBreak - pomoTimeState.currentSessionTime) / pomoTimeState.totalSecondBreak) * 100} />
             )}
           </div>
+
 
           {/* Display current section */}
           <CurrentSection
@@ -163,17 +145,17 @@ export default function Clock({ status, type }: Readonly<ClockProps>) {
 
           {/* Display button Play or Pause */}
           <div className="toolbar flex justify-center py-2 ">
-            {typeTime === "pomodoro-timer" && statusPomo !== "pause" ? (
-              <Pause
-                className="cursor-pointer bg-slate-400 p-2 rounded-full"
+            {typeTime === "pomodoro-timer" && (statusPomo === "ready" || statusPomo === "pause") ? (
+              <Play
+                className="cursor-pointer p-4 rounded-full shadow-2xl bg-rose-500 hover:bg-rose-400"
                 size={50}
-                onClick={() => setStatusPomo("pause")}
+                onClick={() => onChangeStatusPomo("in-progress")}
               />
             ) : (
-              <Play
-                className="cursor-pointer bg-slate-400 p-2 rounded-full"
+              <Pause
+                className="cursor-pointer p-4 rounded-full shadow-2xl bg-slate-400"
                 size={50}
-                onClick={() => setStatusPomo("in-progress")}
+                onClick={() => onChangeStatusPomo("pause")}
               />
             )}
           </div>
@@ -205,6 +187,14 @@ export default function Clock({ status, type }: Readonly<ClockProps>) {
         ref={audioRefAlterCompleted}
         src="/audio/alter-completed-section.m4a"
         preload="auto"
+      >
+        <track kind="captions" />
+      </audio>
+
+      <audio
+        id="audio-pomo-status-change"
+        ref={audioRefPomoStatusChange}
+        src="/audio/pomo-status-change.mp3"
       >
         <track kind="captions" />
       </audio>
