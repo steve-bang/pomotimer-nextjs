@@ -35,11 +35,14 @@ export const pomodoroTimesSlice = createSlice({
         countDownCurrentSessionTime: (state : IPomodoroTime) => {
             state.currentSessionTime -= 1;
         },
+        setCurrentSessionTimeEnd: (state : IPomodoroTime, action: PayloadAction<number>) => {
+            state.currentSessionTime = action.payload;
+        },
         changeStatusCurrentSessionTime: (state : IPomodoroTime, action: PayloadAction<'break' | 'pomodoro'>) => {
             
             // Pomodoro -> Break
             if(action.payload === 'break'){
-                state.currentSessionTime = POMODORO_TIME_DEFAULT.find(x => x.focusTime === state.totalSeconds)?.breakTime;
+                state.currentSessionTime = POMODORO_TIME_DEFAULT.find(x => x.focusTimeSeconds === state.totalSeconds)?.breakTimeSeconds;
             }
             // Break -> Pomodoro
             else {
@@ -49,7 +52,7 @@ export const pomodoroTimesSlice = createSlice({
                     state.completed = true;
 
                 state.currentSession += 1;
-                state.currentSessionTime = POMODORO_TIME_DEFAULT.find(x => x.focusTime === state.totalSeconds)?.focusTime;
+                state.currentSessionTime = POMODORO_TIME_DEFAULT.find(x => x.focusTimeSeconds === state.totalSeconds)?.focusTimeSeconds;
             }
                 
             state.status = action.payload;
@@ -57,5 +60,5 @@ export const pomodoroTimesSlice = createSlice({
     },
 });
 
-export const { setPomodoroTimes , countDownCurrentSessionTime, changeStatusCurrentSessionTime } = pomodoroTimesSlice.actions;
+export const { setPomodoroTimes , countDownCurrentSessionTime, changeStatusCurrentSessionTime, setCurrentSessionTimeEnd } = pomodoroTimesSlice.actions;
 export const pomodoroTimesReducer = pomodoroTimesSlice.reducer;

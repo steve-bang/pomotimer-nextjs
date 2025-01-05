@@ -6,9 +6,9 @@ import { Pause, Play } from "lucide-react";
 import { useAppDispatch, useAppSelector } from "@/lib/store";
 import {
   changeStatusCurrentSessionTime,
-  countDownCurrentSessionTime,
+  setCurrentSessionTimeEnd,
 } from "@/lib/pomodoroTimesSlice";
-import { formatTime, getGreeting } from "@/lib/utils";
+import { formatTime } from "@/lib/utils";
 import CurrentSection from "./CurrentSection";
 import { TIME_TO_RUN_COUNTDOWN_SECOND } from "@/constants/TimeProvider";
 import {
@@ -29,20 +29,21 @@ export default function Clock({ status, type }: Readonly<ClockProps>) {
   const pomoTimeDispatch = useAppDispatch();
 
   const [statusPomo, setStatusPomo] = useState(status);
-  const [timeNow, setTimeNow] = useState<Date | null>(null);
+
   const [typeTime, setTypeTime] = useState(type);
+  const endTime = Date.now() + pomoTimeState.currentSessionTime * 1000;
+
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const audioRefCountdown = useRef<HTMLAudioElement | null>(null);
   const audioRefAlterCompleted = useRef<HTMLAudioElement | null>(null);
   const audioRefPomoStatusChange = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
-    if (!timeNow) setTimeNow(new Date());
+
 
     // If the pomotime is complete
     if (pomoTimeState.completed) {
       audioRefAlterCompleted.current?.play();
-
       return;
     }
 
@@ -79,32 +80,29 @@ export default function Clock({ status, type }: Readonly<ClockProps>) {
 
       // Update the current session time every second
       const intervalId = setInterval(() => {
-        pomoTimeDispatch(countDownCurrentSessionTime());
-      }, 1000); // Updates every 1 second
 
-      // Cleanup the interval when the component unmounts or time reaches 0
-      return () => clearInterval(intervalId);
-    } else if (typeTime === "clock") {
-      const intervalId = setInterval(() => {
-        setTimeNow(new Date());
+        const timeLeft = Math.max(0, Math.round(
+          (endTime - Date.now()) / 1000)
+        ); // Calculate remaining time
+
+        pomoTimeDispatch(setCurrentSessionTimeEnd(timeLeft));
+
+        if (timeLeft <= 0) clearInterval(intervalId); // Stop when time is up
       }, 1000); // Updates every 1 second
 
       // Cleanup the interval when the component unmounts or time reaches 0
       return () => clearInterval(intervalId);
     }
+
   }, [
     pomoTimeState.completed,
-    timeNow,
+    endTime,
     typeTime,
     statusPomo,
     pomoTimeState.currentSessionTime,
     pomoTimeState.status,
     pomoTimeDispatch,
   ]);
-
-  function formatClock() {
-    return `${timeNow?.getHours()} : ${timeNow?.getMinutes()}`;
-  }
 
   function onChangeStatusPomo(status: "done" | "ready" | "in-progress" | "pause") {
     setStatusPomo(status);
@@ -116,51 +114,45 @@ export default function Clock({ status, type }: Readonly<ClockProps>) {
     <div className="clock p-4 flex flex-col items-center text-white">
       <div className="flex items-center gap-2 drop-shadow-2xl">
         <span className="time-text">
-          {typeTime === "pomodoro-timer"
-            ? formatTime(pomoTimeState.currentSessionTime)
-            : formatClock()}
+          {formatTime(pomoTimeState.currentSessionTime)}
         </span>
       </div>
 
-      {typeTime === "clock" ? (
-        <h1>{getGreeting()}</h1>
-      ) : (
-        <>
-          <div className="w-full border-1  border-white outline outline-1 h-4 dark:bg-gray-800 flex items-center rounded-full">
-            {/* Display progress of the section */}
-            {pomoTimeState.status === "pomodoro" ? (
-              <Progress value={((pomoTimeState.totalSeconds - pomoTimeState.currentSessionTime) / pomoTimeState.totalSeconds) * 100} /> 
-            )
-            : (
-              <Progress value={((pomoTimeState.totalSecondBreak - pomoTimeState.currentSessionTime) / pomoTimeState.totalSecondBreak) * 100} />
-            )}
-          </div>
+      {/* Progess*/}
+      <div className="w-full border-1  border-white outline outline-1 h-4 dark:bg-gray-800 flex items-center rounded-full">
+        {/* Display progress of the section */}
+        {pomoTimeState.status === "pomodoro" ? (
+          <Progress value={((pomoTimeState.totalSeconds - pomoTimeState.currentSessionTime) / pomoTimeState.totalSeconds) * 100} />
+        )
+          : (
+            <Progress value={((pomoTimeState.totalSecondBreak - pomoTimeState.currentSessionTime) / pomoTimeState.totalSecondBreak) * 100} />
+          )}
+      </div>
 
 
-          {/* Display current section */}
-          <CurrentSection
-            currentSection={pomoTimeState.currentSession}
-            totalSection={pomoTimeState.totalSessions}
+      {/* Display current section */}
+      <CurrentSection
+        currentSection={pomoTimeState.currentSession}
+        totalSection={pomoTimeState.totalSessions}
+      />
+
+      {/* Display button Play or Pause */}
+      <div className="toolbar flex justify-center py-2 ">
+        {typeTime === "pomodoro-timer" && (statusPomo === "ready" || statusPomo === "pause") ? (
+          <Play
+            className="cursor-pointer p-4 rounded-full shadow-2xl bg-rose-500 hover:bg-rose-400"
+            size={50}
+            onClick={() => onChangeStatusPomo("in-progress")}
           />
+        ) : (
+          <Pause
+            className="cursor-pointer p-4 rounded-full shadow-2xl bg-slate-400"
+            size={50}
+            onClick={() => onChangeStatusPomo("pause")}
+          />
+        )}
+      </div>
 
-          {/* Display button Play or Pause */}
-          <div className="toolbar flex justify-center py-2 ">
-            {typeTime === "pomodoro-timer" && (statusPomo === "ready" || statusPomo === "pause") ? (
-              <Play
-                className="cursor-pointer p-4 rounded-full shadow-2xl bg-rose-500 hover:bg-rose-400"
-                size={50}
-                onClick={() => onChangeStatusPomo("in-progress")}
-              />
-            ) : (
-              <Pause
-                className="cursor-pointer p-4 rounded-full shadow-2xl bg-slate-400"
-                size={50}
-                onClick={() => onChangeStatusPomo("pause")}
-              />
-            )}
-          </div>
-        </>
-      )}
 
       {/* Declare audio for auto play */}
 
