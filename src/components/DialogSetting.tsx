@@ -22,7 +22,7 @@ import { POMODORO_TIME_DEFAULT } from "@/constants/PomodoroTypeDefault";
 import { Settings } from "lucide-react";
 
 // Pomodoro types
-const pomodoroTypes: SelectItemProps[] = POMODORO_TIME_DEFAULT.map(p => ({ value: p.focusTime, label: p.label }));
+const pomodoroTypes: SelectItemProps[] = POMODORO_TIME_DEFAULT.map(p => ({ value: p.focusTimeSeconds, label: p.label }));
 
 export function DialogSetting() {
 
@@ -45,11 +45,11 @@ export function DialogSetting() {
     const onClickSaveChange = () => {
         // Set the pomodoro times to the store
         dispatch(setPomodoroTimes({
-            totalSeconds: convertMinutesToSeconds(parseInt(pomoTypeMinutes)),
-            totalSecondBreak: POMODORO_TIME_DEFAULT.find(x => x.focusTime === convertMinutesToSeconds(parseInt(pomoTypeMinutes)))?.breakTime,
+            totalSeconds: parseInt(pomoTypeMinutes),
+            totalSecondBreak: POMODORO_TIME_DEFAULT.find(x => x.focusTimeSeconds === parseInt(pomoTypeMinutes))?.breakTimeSeconds,
             totalSessions: sessionNumber,
             currentSession: 0,
-            currentSessionTime: convertMinutesToSeconds(parseInt(pomoTypeMinutes)),
+            currentSessionTime: parseInt(pomoTypeMinutes),
             completed: false
         }));
 

@@ -19,7 +19,7 @@ export interface FeatureCardProps {
   }
 
 export interface PomodoroTimeType {
-    focusTime: int;
+    focusTimeSeconds: int;
     label: string; 
-    breakTime: int;
+    breakTimeSeconds: int;
 }
