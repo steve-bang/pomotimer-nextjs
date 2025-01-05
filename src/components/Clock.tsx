@@ -96,6 +96,7 @@ export default function Clock({ status, type }: Readonly<ClockProps>) {
 
   }, [
     pomoTimeState.completed,
+    endTime,
     typeTime,
     statusPomo,
     pomoTimeState.currentSessionTime,

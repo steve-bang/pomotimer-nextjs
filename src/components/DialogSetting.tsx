@@ -16,7 +16,6 @@ import SelectPomotimerType from "./SelectPomotimerType";
 import { Input } from "./ui/input";
 import { useAppDispatch } from "@/lib/store";
 import { setPomodoroTimes } from "@/lib/pomodoroTimesSlice";
-import { convertMinutesToSeconds } from "@/lib/utils";
 import { SelectItemProps } from "@/type";
 import { POMODORO_TIME_DEFAULT } from "@/constants/PomodoroTypeDefault";
 import { Settings } from "lucide-react";
