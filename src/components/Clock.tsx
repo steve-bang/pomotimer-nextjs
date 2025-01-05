@@ -37,32 +37,70 @@ export default function Clock({ status, type }: Readonly<ClockProps>) {
   const audioRefPomoStatusChange = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
-    let intervalId: NodeJS.Timeout;
-  
-    if (typeTime === "pomodoro-timer" && statusPomo === "in-progress") {
-      const startTime = Date.now();
-      const targetEndTime = startTime + pomoTimeState.currentSessionTime * 1000;
-  
-      intervalId = setInterval(() => {
-        const remainingTime = Math.round((targetEndTime - Date.now()) / 1000);
-        if (remainingTime > 0) {
-          pomoTimeDispatch(countDownCurrentSessionTime());
+    if (!timeNow) setTimeNow(new Date());
+
+    // If the pomotime is complete
+    if (pomoTimeState.completed) {
+      audioRefAlterCompleted.current?.play();
+
+      return;
+    }
+
+    // If the timer is in progress, the current session time is greater than 0, and the status is pomodoro
+    if (
+      typeTime === "pomodoro-timer" &&
+      statusPomo === "in-progress" &&
+      pomoTimeState.currentSessionTime >= 0
+    ) {
+      // Play audio repeatedly when currentSessionTime is less than 10 seconds
+      if (
+        pomoTimeState.currentSessionTime < TIME_TO_RUN_COUNTDOWN_SECOND &&
+        pomoTimeState.currentSessionTime > 0
+      ) {
+        audioRefCountdown.current?.play();
+      }
+
+      // If currentSessionTime is 0, stop the audio and update session status
+      if (
+        pomoTimeState.currentSessionTime <= 0 &&
+        statusPomo === "in-progress"
+      ) {
+        audioRef.current?.play();
+        audioRefCountdown.current?.pause();
+
+        if (pomoTimeState.status === "pomodoro") {
+          pomoTimeDispatch(changeStatusCurrentSessionTime("break"));
+          return;
         } else {
-          audioRef.current?.play();
-          pomoTimeDispatch(changeStatusCurrentSessionTime(
-            pomoTimeState.status === "pomodoro" ? "break" : "pomodoro"
-          ));
-          clearInterval(intervalId);
+          pomoTimeDispatch(changeStatusCurrentSessionTime("pomodoro"));
+          return;
         }
-      }, 1000);
+      }
+
+      // Update the current session time every second
+      const intervalId = setInterval(() => {
+        pomoTimeDispatch(countDownCurrentSessionTime());
+      }, 1000); // Updates every 1 second
+
+      // Cleanup the interval when the component unmounts or time reaches 0
+      return () => clearInterval(intervalId);
+    } else if (typeTime === "clock") {
+      const intervalId = setInterval(() => {
+        setTimeNow(new Date());
+      }, 1000); // Updates every 1 second
+
+      // Cleanup the interval when the component unmounts or time reaches 0
+      return () => clearInterval(intervalId);
     }
-  
-    if (typeTime === "clock") {
-      intervalId = setInterval(() => setTimeNow(new Date()), 1000);
-    }
-  
-    return () => clearInterval(intervalId);
-  }, [statusPomo, typeTime, pomoTimeState, pomoTimeDispatch]);
+  }, [
+    pomoTimeState.completed,
+    timeNow,
+    typeTime,
+    statusPomo,
+    pomoTimeState.currentSessionTime,
+    pomoTimeState.status,
+    pomoTimeDispatch,
+  ]);
 
   function formatClock() {
     return `${timeNow?.getHours()} : ${timeNow?.getMinutes()}`;
