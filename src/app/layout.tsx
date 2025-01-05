@@ -31,14 +31,14 @@ export default function RootLayout({
         {/* Open Graph */}
         <meta property="og:title" content={"Pomodoro Timer - Boost Productivity with Time Management"} />
         <meta property="og:description" content={"A simple Pomodoro Timer app that works on a desktop & mobile browser. Pomotimer will help you manage your time and let you focus on any tasks such as study, writing, or coding. The Pomodoro Technique is widely used for tasks that require deep focus, such as studying, coding, writing, or working on a project. There are many apps and timers available that can help you implement the Pomodoro Technique. Try it now!"} />
-        <meta property="og:image" content="https://yourdomain.com/pomodoro-image.jpg" />
-        <meta property="og:url" content="https://yourdomain.com" />
+        <meta property="og:image" content="https://pomotimer-nextjs.vercel.app/logo.jpg" />
+        <meta property="og:url" content="https://pomotimer-nextjs.vercel.app" />
 
         {/* Twitter */}
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={"Pomodoro Timer - Boost Productivity with Time Management"} />
         <meta name="twitter:description" content={"A simple Pomodoro Timer app that works on a desktop & mobile browser. Pomotimer will help you manage your time and let you focus on any tasks such as study, writing, or coding. The Pomodoro Technique is widely used for tasks that require deep focus, such as studying, coding, writing, or working on a project. There are many apps and timers available that can help you implement the Pomodoro Technique. Try it now!"} />
-        <meta name="twitter:image" content="https://yourdomain.com/pomodoro-image.jpg" />
+        <meta name="twitter:image" content="https://pomotimer-nextjs.vercel.app/logo.jpg" />
 
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
