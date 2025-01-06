@@ -47,7 +47,7 @@ export function DialogSetting() {
             totalSeconds: parseInt(pomoTypeMinutes),
             totalSecondBreak: POMODORO_TIME_DEFAULT.find(x => x.focusTimeSeconds === parseInt(pomoTypeMinutes))?.breakTimeSeconds,
             totalSessions: sessionNumber,
-            currentSession: 0,
+            currentSession: 1,
             currentSessionTime: parseInt(pomoTypeMinutes),
             completed: false
         }));

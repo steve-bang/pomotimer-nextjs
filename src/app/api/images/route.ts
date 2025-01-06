@@ -1,4 +1,4 @@
-import { cookieHeaderImage, randomImage } from "@/actions/image.action";
+import { cookieHeaderImage, randomImageAppFolder } from "@/actions/image.action";
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 
@@ -14,7 +14,7 @@ export async function GET() {
   }
 
   // Otherwise, random image from unsplash and set to cookie
-  const imageFecthUnsplash = await randomImage();
+  const imageFecthUnsplash = await randomImageAppFolder();
 
   cookieStore.set(cookieHeaderImage, imageFecthUnsplash.urls.full, {
     path: "/",
