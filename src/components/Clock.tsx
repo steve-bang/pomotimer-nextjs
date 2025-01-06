@@ -38,6 +38,8 @@ export default function Clock({ status, type }: Readonly<ClockProps>) {
   const audioRefAlterCompleted = useRef<HTMLAudioElement | null>(null);
   const audioRefPomoStatusChange = useRef<HTMLAudioElement | null>(null);
 
+  console.log("state", pomoTimeState)
+
   useEffect(() => {
 
 
