@@ -7,7 +7,7 @@ interface DropdownMenuTypeTimeProps {
     onSelect: ( value : "pomodoro-timer" | "clock" ) => void
 }
 
-export default function DropdownMenuTypeTime ( { options, onSelect } : DropdownMenuTypeTimeProps )
+export default function DropdownMenuTypeTime ( { options, onSelect } : Readonly<DropdownMenuTypeTimeProps> )
 {
     return (
         <div className="dropdown-menu-select-clock">
