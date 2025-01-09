@@ -4,7 +4,7 @@ import Link from "next/link";
 import Head from "next/head";
 import FeatureCard from "@/components/FeatureCard";
 
-export default function IntroductionPage() {
+export default function HomePage() {
   return (
     <>
       <Head>
@@ -46,23 +46,18 @@ export default function IntroductionPage() {
         />
         <link rel="canonical" href="https://pomotimer-nextjs.vercel.app/" />
       </Head>
-      <div
-        className="min-h-screen bg-gradient-to-b from-red-50 to-white flex flex-col justify-center items-center px-4 py-8"
-        style={{
-          backgroundImage: `url('/wallpaper/background-landing.webp')`,
-          backgroundRepeat: "no-repeat",
-          backgroundSize: "cover",
-          backdropFilter: "blur(10px)",
-        }}
+      <section
+        className="min-h-screen bg-gradient-to-b from-red-50 to-white flex flex-col justify-center items-center px-4 py-8 bg-cover bg-no-repeat bg-fixed"
+        style={{ backgroundImage: "url('/wallpaper/background-landing.webp')" }}
       >
-        <header className="mb-8">
+        <div className="mb-8">
           <div className="flex items-center space-x-2">
             <ClockAlert className="h-10 w-10 text-red-500" />
 
             <h1 className="text-3xl font-bold text-gray-800">PomodoroTimer</h1>
           </div>
-        </header>
-        <main className="max-w-2xl text-center">
+        </div>
+        <div className="max-w-2xl text-center">
           <h2 className="text-4xl font-bold text-gray-800 mb-6">
             Boost Your Productivity with the Pomodoro Technique
           </h2>
@@ -101,14 +96,12 @@ export default function IntroductionPage() {
               <ArrowRight className="ml-2 h-4 w-4" />
             </Button>
           </Link>
-        </main>
+        </div>
 
         <footer className="mt-12 text-gray-600">
           <p>Copyright (c) 2024 Steve Bang</p>
         </footer>
-      </div>
+      </section>
     </>
   );
 }
-
-
