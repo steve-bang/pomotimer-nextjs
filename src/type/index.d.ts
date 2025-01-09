@@ -1,6 +1,22 @@
 export interface ClockProps{
     type: 'pomodoro-timer' | 'clock';
-    status? : 'ready' | 'in-progress' | 'pause' |'done' 
+    status? : ClockStatus
+}
+
+export type ClockStatus = 'ready' | 'in-progress' | 'pause' |'done' ;
+
+
+export type PomodoroStatus = 'ready' | 'break' | 'pomodoro';
+
+export interface IPomodoroTime{
+    completed : boolean;
+    breakDurationMinutes: number;
+    focusDurationMinutes: number;
+    currentSession: number;
+    totalSession: number;
+    status?: PomodoroStatus;
+    currentTimeSecondRunning: number;
+    totalTimeSecondRunning: number;
 }
 
 export interface CurrentSectionProps{

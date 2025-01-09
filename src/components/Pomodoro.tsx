@@ -36,19 +36,19 @@ export default function Pomodoro() {
         // If the timer is in progress, the current session time is greater than 0, and the status is pomodoro
         if (
             statusPomo === "in-progress" &&
-            pomoTimeState.currentSessionTime >= 0
+            pomoTimeState.currentTimeSecondRunning >= 0
         ) {
             // Play audio repeatedly when currentSessionTime is less than 10 seconds
             if (
-                pomoTimeState.currentSessionTime < TIME_TO_RUN_COUNTDOWN_SECOND &&
-                pomoTimeState.currentSessionTime > 0
+                pomoTimeState.currentTimeSecondRunning < TIME_TO_RUN_COUNTDOWN_SECOND &&
+                pomoTimeState.currentTimeSecondRunning > 0
             ) {
                 audioRefCountdown.current?.play();
             }
 
             // If currentSessionTime is 0, stop the audio and update session status
             if (
-                pomoTimeState.currentSessionTime <= 0 &&
+                pomoTimeState.currentTimeSecondRunning <= 0 &&
                 statusPomo === "in-progress"
             ) {
                 audioRef.current?.play();
@@ -74,7 +74,7 @@ export default function Pomodoro() {
     }, [
         pomoTimeState.completed,
         statusPomo,
-        pomoTimeState.currentSessionTime,
+        pomoTimeState.currentTimeSecondRunning,
         pomoTimeState.status,
         pomoTimeDispatch,
     ]);
@@ -84,7 +84,7 @@ export default function Pomodoro() {
         <div className="clock p-4 flex flex-col items-center text-white">
             <div className="flex items-center gap-2 drop-shadow-2xl">
                 <span className="time-text">
-                    {formatTime(pomoTimeState.currentSessionTime)}
+                    {formatTime(pomoTimeState.currentTimeSecondRunning)}
                 </span>
 
             </div>
@@ -96,9 +96,9 @@ export default function Pomodoro() {
                     <div
                         className="bg-white h-3.5 rounded-full"
                         style={{
-                            width: `${((pomoTimeState.totalSeconds -
-                                    pomoTimeState.currentSessionTime) /
-                                    pomoTimeState.totalSeconds) *
+                            width: `${((pomoTimeState.totalSession -
+                                    pomoTimeState.currentTimeSecondRunning) /
+                                    pomoTimeState.totalSession) *
                                 100
                                 }%`,
                         }}
@@ -107,9 +107,9 @@ export default function Pomodoro() {
                     <div
                         className="bg-white h-3.5 rounded-full"
                         style={{
-                            width: `${((pomoTimeState.totalSecondBreak -
-                                    pomoTimeState.currentSessionTime) /
-                                    pomoTimeState.totalSecondBreak) *
+                            width: `${((pomoTimeState.breakDurationMinutes -
+                                    pomoTimeState.currentTimeSecondRunning) /
+                                    pomoTimeState.breakDurationMinutes) *
                                 100
                                 }%`,
                         }}
@@ -120,7 +120,7 @@ export default function Pomodoro() {
             {/* Display current section */}
             <CurrentSection
                 currentSection={pomoTimeState.currentSession}
-                totalSection={pomoTimeState.totalSessions}
+                totalSection={pomoTimeState.focusDurationMinutes}
             />
 
             {/* Display button Play or Pause */}

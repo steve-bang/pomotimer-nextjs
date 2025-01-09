@@ -1,16 +1,19 @@
-import { useAppSelector } from "@/lib/store";
+import { usePomodoroContext } from "@/lib/PomodoroContext";
+
 
 export default function StateTimer() {
     
-    const pomoTimeState = useAppSelector((state) => state.pomotimer);
+    const { pomodoroData } = usePomodoroContext();
 
     // Get the status of the timer
     function getStatus() {
-        switch (pomoTimeState.status) {
+        switch (pomodoroData.status) {
             case 'pomodoro':
                 return 'Focus time';
-            default:
+            case 'break':
                 return 'Break time';
+            default:
+                return 'Start focus';
         }
     }
 

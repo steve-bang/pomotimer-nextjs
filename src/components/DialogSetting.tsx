@@ -1,7 +1,6 @@
 
 
 import { useState } from "react";
-
 import { Button } from "@/components/ui/button";
 import {
     Dialog,
@@ -14,14 +13,16 @@ import {
 import { Label } from "@/components/ui/label";
 import SelectPomotimerType from "./SelectPomotimerType";
 import { Input } from "./ui/input";
-import { useAppDispatch } from "@/lib/store";
-import { setPomodoroTimes } from "@/lib/pomodoroTimesSlice";
 import { SelectItemProps } from "@/type";
 import { POMODORO_TIME_DEFAULT } from "@/constants/PomodoroTypeDefault";
 import { Settings } from "lucide-react";
+import { usePomodoroContext } from "@/lib/PomodoroContext";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
 
 // Pomodoro types
 const pomodoroTypes: SelectItemProps[] = POMODORO_TIME_DEFAULT.map(p => ({ value: p.focusTimeSeconds, label: p.label }));
+
+const breakDurationTimes : number[] = [ 5, 10, 15, 20, 25, 30 ]
 
 export function DialogSetting() {
 
@@ -29,28 +30,27 @@ export function DialogSetting() {
 
     const [sessionNumber, setSessionNumber] = useState(5);
 
-    const [pomoTypeMinutes, setPomoTypeMinutes] = useState(pomodoroTypes[0].value);
+    const [focusDurationMinutes, setFocusDurationMinutes] = useState(parseInt(pomodoroTypes[0].value));
 
-    const dispatch = useAppDispatch();
+    const [breakDurationMinutes, setBreakDurationMinutes] = useState(breakDurationTimes[0]);
+
+    const { initData } = usePomodoroContext();
 
     // On select time from dropdown list.
-    const onSelectTime = (currentValue: string) => {
-        if (currentValue !== pomoTypeMinutes) {
-            setPomoTypeMinutes(currentValue);
+    const onSelectTime = (currentValue: number) => {
+        if (currentValue !== focusDurationMinutes) {
+            setFocusDurationMinutes(currentValue);
         }
     };
 
     // On click save change
     const onClickSaveChange = () => {
         // Set the pomodoro times to the store
-        dispatch(setPomodoroTimes({
-            totalSeconds: parseInt(pomoTypeMinutes),
-            totalSecondBreak: POMODORO_TIME_DEFAULT.find(x => x.focusTimeSeconds === parseInt(pomoTypeMinutes))?.breakTimeSeconds,
-            totalSessions: sessionNumber,
-            currentSession: 1,
-            currentSessionTime: parseInt(pomoTypeMinutes),
-            completed: false
-        }));
+        initData(
+            focusDurationMinutes,
+            breakDurationMinutes,
+            sessionNumber
+        );
 
         // Close the dialog
         setIsOpen(false);
@@ -79,26 +79,51 @@ export function DialogSetting() {
                     <DialogTitle>Setting</DialogTitle>
                 </DialogHeader>
                 <div className="grid gap-4 py-2">
-                    <div className="grid grid-cols-4 items-center gap-4">
-                        <Label htmlFor="name" className="text-right">
+                    <div className="flex items-center justify-between">
+                        <Label htmlFor="name" className="text-left">
                             Pomodoro
                         </Label>
                         <SelectPomotimerType
                             onSelectTime={onSelectTime}
                             values={pomodoroTypes}
-                            defaultValue={Number.parseInt(pomoTypeMinutes)}
+                            defaultValue={focusDurationMinutes}
                         />
                     </div>
                 </div>
 
                 <div className="grid gap-4 py-2">
-                    <div className="grid grid-cols-4 items-center gap-4">
-                        <Label htmlFor="name" className="text-right">
+                    <div className="flex items-center justify-between">
+                        <Label htmlFor="name" className="text-left">
+                            Break
+                        </Label>
+                        <Select onValueChange={(valueChange) => setBreakDurationMinutes(parseInt(valueChange))} defaultValue={breakDurationMinutes.toString()}>
+                            <SelectTrigger className="w-[200px]">
+                                <SelectValue placeholder="Select time..."></SelectValue>
+                            </SelectTrigger>
+                            <SelectContent>
+
+                                {breakDurationTimes.map((pomodoroType) => (
+                                    <SelectItem
+                                        key={pomodoroType}
+                                        value={pomodoroType.toString()}
+                                    >
+                                        {pomodoroType} Minutes
+                                    </SelectItem>
+                                ))}
+                            </SelectContent>
+                        </Select>
+                    </div>
+                </div>
+
+                <div className="grid gap-4 py-2">
+                    <div className="flex items-center justify-between">
+                        <Label htmlFor="name" className="text-">
                             Session
                         </Label>
                         <Input type="number" id="session" className="w-[200px]" name="session" value={sessionNumber} onChange={(e) => handleOnChangeSessionNumber(e)} />
                     </div>
                 </div>
+
                 <DialogFooter>
                     <Button type="submit" onClick={onClickSaveChange}>Save changes</Button>
                 </DialogFooter>

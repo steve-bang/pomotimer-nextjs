@@ -32,11 +32,11 @@ export function StateSetting() {
     const onClickSaveChange = () => {
         // Set the pomodoro times to the store
         dispatch(setPomodoroTimes({
-            totalSeconds: pomoTimeState.totalSeconds,
-            totalSecondBreak: pomoTimeState.totalSecondBreak,
-            totalSessions: pomoTimeState.totalSessions,
+            totalSession: pomoTimeState.totalSession,
+            breakDurationMinutes: pomoTimeState.breakDurationMinutes,
+            focusDurationMinutes: pomoTimeState.focusDurationMinutes,
             currentSession: 1,
-            currentSessionTime: currentSessionTime,
+            currentTimeSecondRunning: currentSessionTime,
             completed: false
         }));
 

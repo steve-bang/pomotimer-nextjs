@@ -3,8 +3,8 @@
 import Clock from "@/components/Clock";
 import NavbarMenu from "@/components/NavbarMenu";
 import { useEffect, useState } from "react";
-import StoreProvider from "../StoreProvider";
 import StateTimer from "@/components/StateTimer";
+import { PomodoroProvider } from "@/lib/PomodoroContext";
 
 export default function Home() {
   const [imageUrl, setImageUrl] = useState("");
@@ -25,16 +25,16 @@ export default function Home() {
   }, []); // Empty dependency array means this effect runs once when the component mounts
 
   return (
-    <StoreProvider>
-      <main className="min-h-screen" style={{ backgroundImage: `url(${imageUrl})`, backgroundSize: 'cover' }}>
+    <PomodoroProvider>
+      <div className="min-h-screen" style={{ backgroundImage: `url(${imageUrl})`, backgroundSize: 'cover' }}>
         <NavbarMenu />
         <div className="flex items-center justify-center flex-col p-8 pt-20 gap-2">
           <StateTimer />
           <div className="clock region-center-clock">
             <Clock status="ready" type="pomodoro-timer" />
-          </div>
+          </div>  
         </div>
-      </main>
-    </StoreProvider>
+      </div>
+    </PomodoroProvider>
   );
 }

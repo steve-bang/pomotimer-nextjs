@@ -4,7 +4,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from ".
 import { SelectItemProps } from "@/type";
 
 export interface SelectPomotimerTypeProps {
-    onSelectTime: (value: string) => void;
+    onSelectTime: (value: number) => void;
     values: SelectItemProps[];
     defaultValue: number;
 }
@@ -13,7 +13,7 @@ export default function SelectPomotimerType(
     { onSelectTime, values, defaultValue } : Readonly<SelectPomotimerTypeProps>
 ) {
 
-    return (<Select onValueChange={(valueChange) => onSelectTime(valueChange)} defaultValue={defaultValue.toString()}>
+    return (<Select onValueChange={(valueChange) => onSelectTime(parseInt(valueChange))} defaultValue={defaultValue.toString()}>
         <SelectTrigger className="w-[200px]">
             <SelectValue placeholder="Select time..."></SelectValue>
         </SelectTrigger>

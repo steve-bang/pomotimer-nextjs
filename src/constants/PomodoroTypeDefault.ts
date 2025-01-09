@@ -3,17 +3,17 @@ import { PomodoroTimeType } from "@/type";
 export const POMODORO_TIME_DEFAULT : PomodoroTimeType[] = [
     {
         label: "25 minutes",
-        focusTimeSeconds: 1500,
+        focusTimeSeconds: 25,
         breakTimeSeconds: 300
     },
     {
         label: "45 minutes",
-        focusTimeSeconds: 2700,
+        focusTimeSeconds: 45,
         breakTimeSeconds: 600
     },
     {
         label: "60 minutes",
-        focusTimeSeconds: 3600,
+        focusTimeSeconds: 60,
         breakTimeSeconds: 900
     }
 ]
