@@ -127,7 +127,7 @@ export default function Clock({ status, type }: Readonly<ClockProps>) {
 
       {/* Display button Play or Pause */}
       <div className="toolbar flex justify-center py-2 ">
-        {typeTime === "pomodoro-timer" && (statusPomo === "ready" || statusPomo === "pause") ? (
+        {(statusPomo === "ready" || statusPomo === "pause") ? (
           <Play
             className="cursor-pointer p-4 rounded-full shadow-2xl bg-rose-500 hover:bg-rose-400"
             size={50}

@@ -13,7 +13,7 @@ export default function StateTimer() {
             case 'break':
                 return 'Break time';
             default:
-                return 'Start focus';
+                return 'Focus time';
         }
     }
 
