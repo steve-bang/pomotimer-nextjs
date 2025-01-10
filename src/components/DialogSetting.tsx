@@ -22,7 +22,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from ".
 // Pomodoro types
 const pomodoroTypes: SelectItemProps[] = POMODORO_TIME_DEFAULT.map(p => ({ value: p.focusTimeSeconds, label: p.label }));
 
-const breakDurationTimes : number[] = [ 5, 10, 15, 20, 25, 30 ]
+const breakDurationTimes : number[] = [ 1, 5, 10, 15, 20, 25, 30 ]
 
 export function DialogSetting() {
 

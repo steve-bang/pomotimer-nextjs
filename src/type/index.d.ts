@@ -1,5 +1,4 @@
 export interface ClockProps{
-    type: 'pomodoro-timer' | 'clock';
     status? : ClockStatus
 }
 

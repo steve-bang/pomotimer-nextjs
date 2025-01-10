@@ -19,13 +19,12 @@ import { Progress } from "./ui/progress";
 import { usePomodoroContext } from "@/lib/PomodoroContext";
 
 
-export default function Clock({ status, type }: Readonly<ClockProps>) {
+export default function Clock({ status }: Readonly<ClockProps>) {
 
-  const { pomodoroData, changeStatusCurrentSessionTime, setCurrentSessionTime } = usePomodoroContext();
+  const { pomodoroData, changeStatusCurrentSessionTime, setCurrentSessionTime, reset } = usePomodoroContext();
 
   const [statusPomo, setStatusPomo] = useState(status);
 
-  const [typeTime, setTypeTime] = useState(type);
   const endTime = Date.now() + pomodoroData.currentTimeSecondRunning * 1000;
 
   const audioRef = useRef<HTMLAudioElement | null>(null);
@@ -43,7 +42,6 @@ export default function Clock({ status, type }: Readonly<ClockProps>) {
 
     // If the timer is in progress, the current session time is greater than 0, and the status is pomodoro
     if (
-      typeTime === "pomodoro-timer" &&
       statusPomo === "in-progress" &&
       pomodoroData.currentTimeSecondRunning >= 0
     ) {
@@ -91,7 +89,6 @@ export default function Clock({ status, type }: Readonly<ClockProps>) {
   }, [
     pomodoroData.completed,
     endTime,
-    typeTime,
     statusPomo,
     pomodoroData.currentTimeSecondRunning,
     pomodoroData.status,
@@ -99,6 +96,10 @@ export default function Clock({ status, type }: Readonly<ClockProps>) {
   ]);
 
   function onChangeStatusPomo(status: ClockStatus) {
+    if(statusPomo === "ready" && pomodoroData.status === 'ready'){
+       changeStatusCurrentSessionTime('pomodoro');
+    }
+
     setStatusPomo(status);
 
     audioRefPomoStatusChange.current?.play();
@@ -189,7 +190,7 @@ export default function Clock({ status, type }: Readonly<ClockProps>) {
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogAction onClick={() => setTypeTime("clock")} >Continue</AlertDialogAction>
+            <AlertDialogAction onClick={() => reset()} >Reset</AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
