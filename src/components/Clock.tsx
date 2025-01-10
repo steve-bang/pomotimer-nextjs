@@ -21,7 +21,7 @@ import { usePomodoroContext } from "@/lib/PomodoroContext";
 
 export default function Clock({ status, type }: Readonly<ClockProps>) {
 
-  const { pomodoroData, changeStatusCurrentSessionTime, setCurrentSessionTime } = usePomodoroContext();
+  const { pomodoroData, changeStatusCurrentSessionTime, setCurrentSessionTime, reset } = usePomodoroContext();
 
   const [statusPomo, setStatusPomo] = useState(status);
 
@@ -99,6 +99,10 @@ export default function Clock({ status, type }: Readonly<ClockProps>) {
   ]);
 
   function onChangeStatusPomo(status: ClockStatus) {
+    if(statusPomo === "ready" && pomodoroData.status === 'ready'){
+       changeStatusCurrentSessionTime('pomodoro');
+    }
+
     setStatusPomo(status);
 
     audioRefPomoStatusChange.current?.play();
@@ -189,7 +193,7 @@ export default function Clock({ status, type }: Readonly<ClockProps>) {
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogAction onClick={() => setTypeTime("clock")} >Continue</AlertDialogAction>
+            <AlertDialogAction onClick={() => reset()} >Reset</AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>

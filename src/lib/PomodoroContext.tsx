@@ -91,22 +91,44 @@ export const PomodoroProvider = ({ children }: PomodoroProviderProps) => {
 
     const changeStatusCurrentSessionTime = (status: 'ready' | 'break' | 'pomodoro') => {
         let totalCurrentRunning = 0;
-    
+
         if (status === 'break') {
             totalCurrentRunning = convertMinutesToSeconds(pomodoroData.breakDurationMinutes);
-        } else if (status === 'pomodoro' && pomodoroData.currentSession < pomodoroData.totalSession) {
-            totalCurrentRunning = convertMinutesToSeconds(pomodoroData.focusDurationMinutes);
             setPomodoroData({
                 ...pomodoroData, 
-                totalTimeSecondRunning: totalCurrentRunning, 
-                currentSession: pomodoroData.currentSession + 1 
+                status: status, 
+                currentTimeSecondRunning: totalCurrentRunning, 
+                totalTimeSecondRunning: totalCurrentRunning
             });
-            return;
         } else if (status === 'pomodoro') {
-            markCompleted();
+
+            if(pomodoroData.status === 'ready') // Ready -> Pomodoro
+            {
+                setPomodoroData({
+                    ...pomodoroData, 
+                    status: status
+                });
+            }
+            else // Break -> Pomodoro
+            {
+                // Not yet complete session
+                if(pomodoroData.currentSession < pomodoroData.totalSession){
+                    totalCurrentRunning = convertMinutesToSeconds(pomodoroData.focusDurationMinutes);
+                    setPomodoroData({
+                        ...pomodoroData, 
+                        status: status,
+                        totalTimeSecondRunning: totalCurrentRunning, 
+                        currentTimeSecondRunning: totalCurrentRunning, 
+                        currentSession: pomodoroData.currentSession + 1,
+                    });
+                }
+                else {
+                    markCompleted();
+                }
+            }
+
+
         }
-    
-        setTotalSecondRunning(totalCurrentRunning);
     };
 
     const contextValue = useMemo(

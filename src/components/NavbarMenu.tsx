@@ -2,6 +2,7 @@
 import Link from "next/link";
 import { DialogSetting } from "./DialogSetting";
 import { Avatar, AvatarImage } from "./ui/avatar";
+import FullscreenButton from "./FullScreenButton";
 
 
 
@@ -15,7 +16,10 @@ export default function NavbarMenu() {
                 </Avatar>
             </Link>
             </div>
-            <DialogSetting />
+            <div className="narbar-right-tools flex items-center gap-x-2">
+                <DialogSetting />
+                <FullscreenButton />
+            </div>
         </div>
     );
 }
