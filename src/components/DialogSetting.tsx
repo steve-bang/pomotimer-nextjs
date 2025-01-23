@@ -15,7 +15,7 @@ import SelectPomotimerType from "./SelectPomotimerType";
 import { Input } from "./ui/input";
 import { SelectItemProps } from "@/type";
 import { POMODORO_TIME_DEFAULT } from "@/constants/PomodoroTypeDefault";
-import { Settings, ActivityIcon } from "lucide-react";
+import { Settings } from "lucide-react";
 import { usePomodoroContext } from "@/lib/PomodoroContext";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
 
