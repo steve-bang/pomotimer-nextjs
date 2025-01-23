@@ -15,14 +15,14 @@ import SelectPomotimerType from "./SelectPomotimerType";
 import { Input } from "./ui/input";
 import { SelectItemProps } from "@/type";
 import { POMODORO_TIME_DEFAULT } from "@/constants/PomodoroTypeDefault";
-import { Settings } from "lucide-react";
+import { Settings, ActivityIcon } from "lucide-react";
 import { usePomodoroContext } from "@/lib/PomodoroContext";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
 
 // Pomodoro types
 const pomodoroTypes: SelectItemProps[] = POMODORO_TIME_DEFAULT.map(p => ({ value: p.focusTimeSeconds, label: p.label }));
 
-const breakDurationTimes : number[] = [ 1, 5, 10, 15, 20, 25, 30 ]
+const breakDurationTimes : number[] = [ 5, 10, 15, 20, 25, 30 ]
 
 export function DialogSetting() {
 
